@@ -26,7 +26,7 @@ public class CityController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<City> getOne(@PathVariable int id){
+    public ResponseEntity<CityDto> getOne(@PathVariable int id){
         var city = service.getOneCity(id);
         if( city.isPresent())
             return ResponseEntity.ok().body(city.get());

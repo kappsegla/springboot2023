@@ -21,7 +21,17 @@ public class CityService {
                 .toList();
     }
 
-    Optional<City> getOneCity(int id) {
-        return repository.findById(id);
+    Optional<CityDto> getOneCity(int id) {
+        return map(repository.findById(id));
+    }
+
+    static Optional<CityDto> map(Optional<City> city) {
+        if (city.isEmpty())
+            return Optional.empty();
+        var city1 = city.get();
+        return Optional.of(
+                new CityDto(city1.getCityId(), city1.getCityName(), city1.getInhabitants(),
+                        new CountryDto(city1.getCountry().getCountryName(), city1.getCountry().getNationalDay()))
+        );
     }
 }
