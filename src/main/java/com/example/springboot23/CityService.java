@@ -9,15 +9,19 @@ import java.util.Optional;
 @Service
 public class CityService {
 
-    List<String> cities = List.of("Kalmar", "Göteborg", "Sundsvall");
+    CityRepository repository;
 
-    List<String> getAllCities() {
-        return cities;
+    public CityService(CityRepository repository) {
+        this.repository = repository;
     }
 
-    Optional<String> getOneCity(int id) {
-        if (id < 0 || id >= cities.size())
-            return Optional.empty();
-        return Optional.of(cities.get(id));
+    List<CityIdName> getAllCities() {
+        return repository.findAll().stream()
+                .map(CityIdName::new)
+                .toList();
+    }
+
+    Optional<City> getOneCity(int id) {
+        return repository.findById(id);
     }
 }
