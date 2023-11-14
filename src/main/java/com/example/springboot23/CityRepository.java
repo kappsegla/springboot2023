@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface CityRepository extends ListCrudRepository<City,Integer> {
 
-    List<City> findBy();
+
+
 }

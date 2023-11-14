@@ -16,7 +16,7 @@ public class CityService {
     }
 
     List<CityIdName> getAllCities() {
-        return repository.findBy().stream()
+        return repository.findAll().stream()
                 .map(CityIdName::new)
                 .toList();
     }
