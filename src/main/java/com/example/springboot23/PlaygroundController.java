@@ -1,9 +1,15 @@
 package com.example.springboot23;
 
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.crs.CoordinateReferenceSystem;
+import org.geolatte.geom.json.GeolatteGeomModule;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
 @RestController
 @RequestMapping("api/playgrounds")
@@ -22,11 +28,10 @@ public class PlaygroundController {
 
     @PostMapping
     public ResponseEntity<Void> createNew(@RequestBody Location playgroundLocation) {
-        var playg = service.createNew(playgroundLocation);
+        var play = service.createNew(playgroundLocation);
         //Todo: Add created with uri
         return ResponseEntity.ok().build();
     }
-
 
     @GetMapping
     public List<Playground> getPlaygroundsInCircle(

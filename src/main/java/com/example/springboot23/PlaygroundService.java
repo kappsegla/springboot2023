@@ -5,7 +5,7 @@ import org.geolatte.geom.Geometries;
 import org.geolatte.geom.Point;
 import org.geolatte.geom.builder.DSL;
 import org.geolatte.geom.codec.Wkt;
-import org.geolatte.geom.crs.CrsRegistry;
+import org.geolatte.geom.crs.CoordinateReferenceSystems;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,18 +28,19 @@ public class PlaygroundService {
 
     public Playground createNew(Location location) {
         var playground = new Playground();
-//        String text = "POINT (" + location.lat() + " " + location.lon() + ")";
-//        var geo = Wkt.fromWkt("POINT(56.74246232627352 15.90867783035189)", WGS84);
-//        playground.setCoordinates((Point<G2D>) geo);
-//        var geo = Geometries.mkPoint(new G2D(location.lat(),location.lon()), WGS84);
-//https://medium.com/spartner/the-best-way-to-locate-in-mysql-8-e47a59892443
-        var geo = DSL.point(WGS84, g(location.lat(), location.lon()));
-        playground.setCoordinates((Point<G2D>) geo);
+        if (location.lat() < -90 || location.lat() > 90 || location.lon() < -180 || location.lon() > 180) {
+            throw new IllegalArgumentException("Invalid latitude or longitude");
+        }
+//        String text = "POINT (" + location.lon() + " " + location.lat() + ")";
+//        Point<G2D> geo = (Point<G2D>) Wkt.fromWkt(text, WGS84);
+        var geo = Geometries.mkPoint(new G2D(location.lon(),location.lat()), WGS84);
+//        var geo = DSL.point(WGS84, g(location.lat(), location.lon()));
+        playground.setCoordinate(geo);
         return repository.save(playground);
     }
-
     public List<Playground> findAround(double lat, double lng, double distance) {
-        Point<G2D> location = DSL.point(WGS84, g(lat, lng));
-        return repository.filterOnDistance("POINT(" + lng +" " + lat +")", distance);
+        Point<G2D> location = DSL.point(WGS84, g(lng, lat));
+//        return repository.filterOnDistance("POINT(" + lat +" " + lng +")", distance);
+        return repository.filterOnDistance(location, distance);
     }
 }

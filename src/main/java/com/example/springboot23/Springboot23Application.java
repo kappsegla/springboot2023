@@ -16,6 +16,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
@@ -36,9 +37,4 @@ public class Springboot23Application {
 //                .modules(new GeolatteGeomModule(crs));
 //    }
 
-    @Bean
-    GeolatteGeomModule geolatteModule(){
-        CoordinateReferenceSystem<G2D> crs = WGS84;
-        return new GeolatteGeomModule(crs);
-    }
 }

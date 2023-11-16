@@ -1,6 +1,5 @@
 package com.example.springboot23;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,8 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Point;
-import org.geolatte.geom.json.GeometrySerializer;
 import org.hibernate.proxy.HibernateProxy;
+
 
 import java.util.Objects;
 
@@ -20,7 +19,7 @@ public class Playground {
     private Integer id;
 
     @JsonSerialize(using = Point2DSerializer.class)
-    private Point<G2D> coordinates;
+    private Point<G2D> coordinate;
 
     public Integer getId() {
         return id;
@@ -30,12 +29,12 @@ public class Playground {
         this.id = id;
     }
 
-    public Point<G2D> getCoordinates() {
-        return coordinates;
+    public Point getCoordinate() {
+        return coordinate;
     }
 
-    public void setCoordinates(Point<G2D> coordinates) {
-        this.coordinates = coordinates;
+    public void setCoordinate(Point<G2D> coordinate) {
+        this.coordinate = coordinate;
     }
 
     @Override
