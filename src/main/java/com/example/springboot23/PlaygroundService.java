@@ -31,10 +31,11 @@ public class PlaygroundService {
         if (location.lat() < -90 || location.lat() > 90 || location.lon() < -180 || location.lon() > 180) {
             throw new IllegalArgumentException("Invalid latitude or longitude");
         }
+        var geo = Geometries.mkPoint(new G2D(location.lon(),location.lat()), WGS84);
+//        var geo = DSL.point(WGS84, g(location.lon(), location.lat()));
 //        String text = "POINT (" + location.lon() + " " + location.lat() + ")";
 //        Point<G2D> geo = (Point<G2D>) Wkt.fromWkt(text, WGS84);
-        var geo = Geometries.mkPoint(new G2D(location.lon(),location.lat()), WGS84);
-//        var geo = DSL.point(WGS84, g(location.lat(), location.lon()));
+
         playground.setCoordinate(geo);
         return repository.save(playground);
     }

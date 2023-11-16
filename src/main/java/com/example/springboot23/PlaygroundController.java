@@ -21,11 +21,6 @@ public class PlaygroundController {
         this.service = service;
     }
 
-//    @GetMapping
-//    List<Playground> allPlaygrounds() {
-//        return service.getAll();
-//    }
-
     @PostMapping
     public ResponseEntity<Void> createNew(@RequestBody Location playgroundLocation) {
         var play = service.createNew(playgroundLocation);
