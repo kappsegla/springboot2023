@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -16,9 +17,9 @@ public class CityService {
     }
 
     List<CityIdName> getAllCities() {
-        return repository.findAll().stream()
+        return repository.findCities().stream()
                 .map(CityIdName::new)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     Optional<CityDto> getOneCity(int id) {

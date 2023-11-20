@@ -1,12 +1,13 @@
 package com.example.springboot23;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostFilter;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -20,13 +21,13 @@ public class CityController {
     }
 
     @GetMapping
-//    @PostFilter("filterObject.id != 1")
+//    @PostFilter("filterObject.id() != 1")
     public List<CityIdName> getAll() {
-        throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "entity not found"
-        );
+//        throw new ResponseStatusException(
+//                HttpStatus.NOT_FOUND, "entity not found"
+//        );
 //        return new ArrayList<>(service.getAllCities());
-//        return service.getAllCities();
+        return service.getAllCities();
     }
 
     @GetMapping("{id}")
