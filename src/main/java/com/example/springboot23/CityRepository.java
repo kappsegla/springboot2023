@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface CityRepository extends ListCrudRepository<City,Integer> {
 
-    @Query("select c from City c where c.cityName = ?#{ principal?.username }")
-    List<City> findCities();
 }
