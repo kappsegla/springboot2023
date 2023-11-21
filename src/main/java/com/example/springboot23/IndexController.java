@@ -24,6 +24,7 @@ public class IndexController {
                 (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();
 
+        map.put("sub",jwt.getSubject());
         map.put("username", jwt.getClaimAsString("preferred_username"));
         map.put("email", jwt.getClaimAsString("email"));
         map.put("name", jwt.getClaimAsString("name"));

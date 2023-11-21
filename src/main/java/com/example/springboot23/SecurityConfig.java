@@ -33,7 +33,7 @@ public class SecurityConfig {
         http.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/error").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/cities").hasRole("cities")
+                        .requestMatchers(HttpMethod.GET, "/api/cities").hasAuthority("SCOPE_cities")
                         .requestMatchers(HttpMethod.GET, "/api/cities/*").hasAuthority("SCOPE_read")
                         .requestMatchers(HttpMethod.GET,"/api/me").authenticated()
                         .anyRequest().denyAll());
