@@ -30,29 +30,40 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//                .httpBasic(Customizer.withDefaults())
-        return http
-                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
-                .logout(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
-                .headers(AbstractHttpConfigurer::disable)
-                .sessionManagement(ma -> ma.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        http.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/error").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/cities").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/cities").hasRole("cities")
                         .requestMatchers(HttpMethod.GET, "/api/cities/*").hasAuthority("SCOPE_read")
-                        .anyRequest().denyAll())
-                .build();
+                        .requestMatchers(HttpMethod.GET,"/api/me").authenticated()
+                        .anyRequest().denyAll());
+        return http.build();
     }
 
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder
-                .withJwkSetUri("https://fungover.org/auth/.well-known/jwks.json")
-                .jwsAlgorithm(SignatureAlgorithm.ES256)
-                .build();
-    }
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//                .oauth2Client(c-> c.oauth2Login()
+//        http
+//                .authorizeHttpRequests()
+//                .requestMatchers("/unauthenticated", "/oauth2/**", "/login/**").permitAll()
+//                .anyRequest()
+//                .fullyAuthenticated()
+//                .and()
+//                .logout()
+//                .logoutSuccessUrl("http://localhost:8000/realms/external/protocol/openid-connect/logout?redirect_uri=http://localhost:8080/");
+//
+//        return http.build();
+//
+//    }
+
+//    @Bean
+//    public JwtDecoder jwtDecoder() {
+//        return NimbusJwtDecoder
+//                .withJwkSetUri("https://fungover.org/auth/.well-known/jwks.json")
+//                .jwsAlgorithm(SignatureAlgorithm.ES256)
+//                .build();
+//    }
 
     @Bean
     @Description("In memory Userdetails service registered")

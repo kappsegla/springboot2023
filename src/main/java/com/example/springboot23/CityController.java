@@ -29,10 +29,10 @@ public class CityController {
 //                HttpStatus.NOT_FOUND, "entity not found"
 //        );
 //        return new ArrayList<>(service.getAllCities());
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUserName = authentication.getName();
-        authentication.getAuthorities().forEach(System.out::println);
-        var jwt = (org.springframework.security.oauth2.jwt.Jwt) authentication.getPrincipal();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentUserName = authentication.getName();
+//        authentication.getAuthorities().forEach(System.out::println);
+//        var jwt = (org.springframework.security.oauth2.jwt.Jwt) authentication.getPrincipal();
 
         return service.getAllCities();
     }
