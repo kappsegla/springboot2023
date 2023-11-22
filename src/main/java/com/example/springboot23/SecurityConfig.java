@@ -23,14 +23,11 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-//@EnableMethodSecurity
-//@EnableWebSecurity(debug = true)
 @Configuration
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//                .httpBasic(Customizer.withDefaults())
         return http
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .logout(AbstractHttpConfigurer::disable)
@@ -52,34 +49,5 @@ public class SecurityConfig {
                 .withJwkSetUri("https://fungover.org/auth/.well-known/jwks.json")
                 .jwsAlgorithm(SignatureAlgorithm.ES256)
                 .build();
-    }
-
-    @Bean
-    @Description("In memory Userdetails service registered")
-    public UserDetailsService users(PasswordEncoder encoder) {
-        // The builder will ensure the passwords are encoded before saving in memory
-        UserDetails user = User.builder()
-                .username("Stockholm")
-                .password(encoder.encode("password"))
-                .roles("USER")
-                .build();
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(encoder.encode("password"))
-                .roles("USER", "ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user, admin);
-    }
-
-
-    //https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html#authentication-password-storage-bcrypt
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
-        return new SecurityEvaluationContextExtension();
     }
 }
