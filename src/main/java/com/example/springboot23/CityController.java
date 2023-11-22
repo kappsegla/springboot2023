@@ -42,4 +42,4 @@ public class CityController {
         var city = service.getOneCity(id);
         return city.map(cityDto -> ResponseEntity.ok().body(cityDto)).orElseGet(() -> ResponseEntity.notFound().build());
     }
-                                                                                                            }
+}
