@@ -1,5 +1,6 @@
-package com.example.springboot23;
+package com.example.springboot23.city;
 
+import com.example.springboot23.country.Country;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import org.hibernate.proxy.HibernateProxy;

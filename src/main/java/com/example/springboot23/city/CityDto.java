@@ -1,5 +1,6 @@
-package com.example.springboot23;
+package com.example.springboot23.city;
 
+import com.example.springboot23.country.CountryDto;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;

@@ -1,11 +1,7 @@
-package com.example.springboot23;
+package com.example.springboot23.city;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
-
-import java.util.List;
 
 public interface CityRepository extends ListCrudRepository<City, Integer> {
 
-    List<City> findCities();
 }

@@ -1,4 +1,4 @@
-package com.example.springboot23;
+package com.example.springboot23.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +37,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/cities").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/cities/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/cities/*").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/api/cities").hasRole("ADMIN")
                         .anyRequest().denyAll())
                 .build();
     }

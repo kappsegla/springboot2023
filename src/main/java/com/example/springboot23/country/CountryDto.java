@@ -1,4 +1,4 @@
-package com.example.springboot23;
+package com.example.springboot23.country;
 
 import jakarta.validation.constraints.Size;
 
