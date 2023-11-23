@@ -13,8 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
@@ -50,7 +48,7 @@ public class SecurityConfig {
     public UserDetailsService users(PasswordEncoder encoder) {
         // The builder will ensure the passwords are encoded before saving in memory
         UserDetails user = User.builder()
-                .username("Stockholm")
+                .username("user")
                 .password(encoder.encode("password"))
                 .roles("USER")
                 .build();
