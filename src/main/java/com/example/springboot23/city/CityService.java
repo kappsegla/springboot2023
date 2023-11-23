@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 @Service
 public class CityService {
 
-    CityRepository repository;
-    CountryService countryService;
+    final CityRepository repository;
+    final CountryService countryService;
 
     public CityService(CityRepository repository, CountryService countryService) {
         this.repository = repository;

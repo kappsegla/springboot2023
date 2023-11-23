@@ -20,10 +20,6 @@ public class CityController {
 
     @GetMapping
     public List<CityIdName> getAll() {
-//        throw new ResponseStatusException(
-//                HttpStatus.NOT_FOUND, "entity not found"
-//        );
-//        return new ArrayList<>(service.getAllCities());
         return service.getAllCities();
     }
 

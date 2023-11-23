@@ -38,11 +38,10 @@ public class SecurityConfig {
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/cities").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/cities/*").authenticated()
-                        .requestMatchers(HttpMethod.POST,"/api/cities").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/cities").hasRole("ADMIN")
                         .anyRequest().denyAll())
                 .build();
     }
-
 
     @Bean
     @Description("In memory Userdetails service registered")
@@ -61,8 +60,6 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(user, admin);
     }
 
-
-    //https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html#authentication-password-storage-bcrypt
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
