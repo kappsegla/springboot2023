@@ -54,6 +54,10 @@ public class City {
         return cityId;
     }
 
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
+
     public Integer getInhabitants() {
         return inhabitants;
     }

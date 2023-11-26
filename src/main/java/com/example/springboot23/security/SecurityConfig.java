@@ -19,8 +19,8 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-@EnableMethodSecurity
-@EnableWebSecurity(debug = true)
+//@EnableMethodSecurity
+//@EnableWebSecurity(debug = true)
 @Configuration
 public class SecurityConfig {
 

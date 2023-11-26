@@ -20,13 +20,13 @@ public class CityService {
         this.countryService = countryService;
     }
 
-    List<CityIdName> getAllCities() {
+    public List<CityIdName> getAllCities() {
         return repository.findAll().stream()
                 .map(CityIdName::new)
                 .collect(Collectors.toList());
     }
 
-    Optional<CityDto> getOneCity(int id) {
+    public Optional<CityDto> getOneCity(int id) {
         return map(repository.findById(id));
     }
 
