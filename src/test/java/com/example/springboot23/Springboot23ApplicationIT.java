@@ -4,11 +4,14 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -17,7 +20,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql({"/schema.sql", "/data.sql"})
+//@Sql(scripts = {"/schema.sql", "/data.sql"})
 @Testcontainers
 class Springboot23ApplicationIT {
 
@@ -27,15 +30,7 @@ class Springboot23ApplicationIT {
     @Container
     static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.2.0");
 
-//    @BeforeAll
-//    static void beforeAll() {
-//        mysql.start();
-//    }
-//
-//    @AfterAll
-//    static void afterAll() {
-//        mysql.stop();
-//    }
+    WebTestClient client;
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
@@ -47,16 +42,11 @@ class Springboot23ApplicationIT {
     @BeforeEach
     void setUp() {
         RestAssured.baseURI = "http://localhost:" + port;
+        client = WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
     }
 
     @Test
     void shouldGetAllCustomers() {
-//        List<Customer> customers = List.of(
-//                new Customer(null, "John", "john@mail.com"),
-//                new Customer(null, "Dennis", "dennis@mail.com")
-//        );
-//        customerRepository.saveAll(customers);
-
         given()
                 .contentType(ContentType.JSON)
                 .when()
@@ -64,5 +54,13 @@ class Springboot23ApplicationIT {
                 .then()
                 .statusCode(200)
                 .body(".", hasSize(6));
+    }
+
+    @Test
+    void usingRestClient(){
+        client.get()
+                .uri("/api/cities")
+                .exchange()
+                .expectStatus().isOk();
     }
 }

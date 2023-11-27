@@ -1,8 +1,11 @@
 package com.example.springboot23.city;
 
+import com.example.springboot23.country.Country;
 import com.example.springboot23.country.CountryDto;
 import com.example.springboot23.country.CountryService;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,12 +15,15 @@ import java.util.stream.Collectors;
 @Service
 public class CityService {
 
+    RestClient client;
+
     final CityRepository repository;
     final CountryService countryService;
 
-    public CityService(CityRepository repository, CountryService countryService) {
+    public CityService(CityRepository repository, CountryService countryService, RestClient client) {
         this.repository = repository;
         this.countryService = countryService;
+        this.client = client;
     }
 
     public List<CityIdName> getAllCities() {
@@ -27,6 +33,7 @@ public class CityService {
     }
 
     public Optional<CityDto> getOneCity(int id) {
+        var result = client.get().uri("/api/countries").retrieve().body(new ParameterizedTypeReference<List<Country>>(){});
         return map(repository.findById(id));
     }
 
