@@ -20,7 +20,6 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@Sql(scripts = {"/schema.sql", "/data.sql"})
 @Testcontainers
 class Springboot23ApplicationIT {
 

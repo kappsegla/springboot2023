@@ -2,32 +2,43 @@ package com.example.springboot23;
 
 import com.example.springboot23.city.City;
 import com.example.springboot23.city.CityRepository;
+import com.example.springboot23.country.Country;
 import com.example.springboot23.country.CountryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataJpaTest//(showSql = false)
 @TestPropertySource(properties = {
-        "spring.jpa.hibernate.ddl-auto=none",
-//        "spring.jpa.show-sql=true"
-//        "spring.sql.init.mode=embedded",
-        //        "spring.jpa.defer-datasource-initialization=true"
+        "spring.jpa.hibernate.ddl-auto=none"
 })
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@TestPropertySource(properties = {
+//        "spring.datasource.url=jdbc:tc:mysql:8.2.0:///test"   //https://java.testcontainers.org/modules/databases/jdbc/#database-containers-launched-via-jdbc-url-scheme
+//})
 public class RepositoryTest {
 
     @Autowired
+    private TestEntityManager entityManager;
+
+    @Autowired
     CityRepository cityRepository;
+
+    @Autowired
+    CountryRepository countryRepository;
 
     @Test
     void validTest() {
         var city = new City();
         city.setCityName("Test");
         city.setInhabitants(999);
+        Country country = countryRepository.findByCountryName("Sverige");
+        city.setCountry(country);
         var sCity = cityRepository.save(city);
         assertThat(cityRepository.findById(sCity.getCityId()))
                 .isNotEmpty().get().isEqualTo(sCity);

@@ -1,5 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS test;
-
 CREATE TABLE continent (
                            continent_id INT AUTO_INCREMENT,
                            continent_name VARCHAR(255),
@@ -16,7 +14,6 @@ CREATE TABLE country (
                          PRIMARY KEY (country_id),
                          FOREIGN KEY (continent_id) REFERENCES continent(continent_id)
 );
-
 CREATE TABLE city (
                       city_id INT AUTO_INCREMENT,
                       city_name VARCHAR(255),

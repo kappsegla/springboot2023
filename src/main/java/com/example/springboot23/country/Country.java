@@ -2,11 +2,13 @@ package com.example.springboot23.country;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
-@Table(name = "country", schema = "test")
+@Table(name = "country")
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,4 +70,29 @@ public class Country {
         this.nationalDay = nationalDay;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+               "id = " + id + ", " +
+               "countryName = " + countryName + ", " +
+               "languageCode = " + languageCode + ", " +
+               "currencyCode = " + currencyCode + ", " +
+               "nationalDay = " + nationalDay + ")";
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        Country country = (Country) o;
+        return getId() != null && Objects.equals(getId(), country.getId());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
 }

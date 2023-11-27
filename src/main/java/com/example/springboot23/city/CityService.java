@@ -14,16 +14,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class CityService {
-
-    RestClient client;
-
     final CityRepository repository;
     final CountryService countryService;
 
-    public CityService(CityRepository repository, CountryService countryService, RestClient client) {
+    public CityService(CityRepository repository, CountryService countryService) {
         this.repository = repository;
         this.countryService = countryService;
-        this.client = client;
     }
 
     public List<CityIdName> getAllCities() {
@@ -33,7 +29,6 @@ public class CityService {
     }
 
     public Optional<CityDto> getOneCity(int id) {
-        var result = client.get().uri("/api/countries").retrieve().body(new ParameterizedTypeReference<List<Country>>(){});
         return map(repository.findById(id));
     }
 
