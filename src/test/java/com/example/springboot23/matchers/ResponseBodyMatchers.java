@@ -1,8 +1,10 @@
 package com.example.springboot23.matchers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.test.web.servlet.ResultMatcher;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,16 @@ public class ResponseBodyMatchers {
         return mvcResult -> {
             String json = mvcResult.getResponse().getContentAsString();
             T actualObject = objectMapper.readValue(json, targetClass);
+            assertThat(actualObject).usingRecursiveComparison().isEqualTo(expectedObject);
+        };
+    }
+
+    public <T> ResultMatcher containsObjectAsJson(
+            Object expectedObject,
+            TypeReference<T> typeReference) {
+        return mvcResult -> {
+            String json = mvcResult.getResponse().getContentAsString();
+            T actualObject = objectMapper.readValue(json, typeReference);
             assertThat(actualObject).usingRecursiveComparison().isEqualTo(expectedObject);
         };
     }

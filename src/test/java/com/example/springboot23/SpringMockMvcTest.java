@@ -1,11 +1,9 @@
 package com.example.springboot23;
 
-import com.example.springboot23.city.City;
-import com.example.springboot23.city.CityController;
-import com.example.springboot23.city.CityDto;
-import com.example.springboot23.city.CityService;
+import com.example.springboot23.city.*;
 import com.example.springboot23.country.CountryDto;
 import com.example.springboot23.security.SecurityConfig;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.springboot23.matchers.ResponseBodyMatchers.responseBody;
@@ -97,5 +96,16 @@ public class SpringMockMvcTest {
                         .contentType("application/json")
                         .content(mapper.writeValueAsString(city)))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void shouldReturnAllCities() throws Exception {
+        when(service.getAllCities()).thenReturn(List.of(new CityIdName(1, "Test"),new CityIdName(2,"Test2")));
+        var expected = List.of(new CityIdName(1, "Test"),new CityIdName(2,"Test2"));
+
+        mockMvc.perform(get("/api/cities"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(responseBody().containsObjectAsJson(expected, new TypeReference<List<CityIdName>>(){}));
     }
 }

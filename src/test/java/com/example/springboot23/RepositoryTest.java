@@ -6,7 +6,6 @@ import com.example.springboot23.country.Country;
 import com.example.springboot23.country.CountryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.TestPropertySource;
@@ -15,11 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest//(showSql = false)
 @TestPropertySource(properties = {
-        "spring.jpa.hibernate.ddl-auto=none"
+        "spring.jpa.hibernate.ddl-auto=none",
 })
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//Uncomment the following to run with mysql and testcontainer instead of h2 database
 //@TestPropertySource(properties = {
-//        "spring.datasource.url=jdbc:tc:mysql:8.2.0:///test"   //https://java.testcontainers.org/modules/databases/jdbc/#database-containers-launched-via-jdbc-url-scheme
+//        "spring.test.database.replace=none",
+//        "spring.sql.init.mode=always",
+//        "spring.datasource.url=jdbc:tc:mysql:8.2.0:///test?TC_TMPFS=/var/lib/mysql:rw"
 //})
 public class RepositoryTest {
 
