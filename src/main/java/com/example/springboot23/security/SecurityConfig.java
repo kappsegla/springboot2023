@@ -19,6 +19,9 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.http.HttpMethod.*;
+import static org.springframework.http.HttpMethod.GET;
+
 //@EnableMethodSecurity
 //@EnableWebSecurity(debug = true)
 @Configuration
@@ -36,9 +39,10 @@ public class SecurityConfig {
                 .sessionManagement(ma -> ma.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/error").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/cities").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/cities/*").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/cities").hasRole("ADMIN")
+                        .requestMatchers(GET,"/api/geo").permitAll()
+                        .requestMatchers(GET, "/api/cities").permitAll()
+                        .requestMatchers(GET, "/api/cities/*").authenticated()
+                        .requestMatchers(POST, "/api/cities").hasRole("ADMIN")
                         .anyRequest().denyAll())
                 .build();
     }
