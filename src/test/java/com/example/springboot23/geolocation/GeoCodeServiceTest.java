@@ -7,8 +7,12 @@ import org.springframework.boot.test.autoconfigure.data.redis.AutoConfigureDataR
 import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureMockRestServiceServer;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.retry.annotation.RetryConfiguration;
+import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,6 +21,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @RestClientTest(GeoCodeService.class)
+@Import(RetryConfiguration.class)
 class GeoCodeServiceTest {
 
     @Autowired
@@ -30,8 +35,8 @@ class GeoCodeServiceTest {
 
     @Test
     void reverseGeoCode() {
-        server.expect(requestTo("/reverse?lat=55.0&lon=16.5")).andRespond(withSuccess("Hello", MediaType.APPLICATION_JSON));
-//        server.expect(requestTo("/reverse?lat=55.0&lon=16.5")).andRespond(withBadGateway());
+//         server.expect(requestTo("/reverse?lat=55.0&lon=16.5")).andRespond(withSuccess("Hello", MediaType.APPLICATION_JSON));
+        server.expect(ExpectedCount.max(3),requestTo("/reverse?lat=55.0&lon=16.5")).andRespond(withBadGateway());
 
         String result = service.reverseGeoCode(55.0f,16.5f);
 
