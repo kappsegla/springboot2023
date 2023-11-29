@@ -35,12 +35,21 @@ class GeoCodeServiceTest {
 
     @Test
     void reverseGeoCode() {
-//         server.expect(requestTo("/reverse?lat=55.0&lon=16.5")).andRespond(withSuccess("Hello", MediaType.APPLICATION_JSON));
-        server.expect(ExpectedCount.max(3),requestTo("/reverse?lat=55.0&lon=16.5")).andRespond(withBadGateway());
+        server.expect(ExpectedCount.max(1), requestTo("/reverse?lat=55.0&lon=16.5")).andRespond(withSuccess("Hello", MediaType.APPLICATION_JSON));
 
-        String result = service.reverseGeoCode(55.0f,16.5f);
+        String result = service.reverseGeoCode(55.0f, 16.5f);
 
         server.verify();
         assertThat(result).isEqualTo("Hello");
+    }
+
+    @Test
+    void reverseGeoCodeFailsWithError() {
+        server.expect(ExpectedCount.max(3), requestTo("/reverse?lat=55.0&lon=16.5")).andRespond(withBadGateway());
+
+        String result = service.reverseGeoCode(55.0f, 16.5f);
+
+        server.verify();
+        assertThat(result).isEqualTo("Error, couldn't get value");
     }
 }
