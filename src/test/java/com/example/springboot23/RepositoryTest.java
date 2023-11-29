@@ -34,7 +34,7 @@ public class RepositoryTest {
     CountryRepository countryRepository;
 
     @Test
-    void validTest() {
+    void saveNewCity() {
         var city = new City();
         city.setCityName("Test");
         city.setInhabitants(999);
@@ -47,7 +47,7 @@ public class RepositoryTest {
 
     @Test
     void getAllCities() {
-        var cities = cityRepository.findById(1);
-        assertThat(cities).isNotEmpty();
+        var cities = cityRepository.findAll();
+        assertThat(cities).hasSize(6);
     }
 }

@@ -15,13 +15,8 @@ import org.springframework.web.client.RestTemplate;
 public class GeoCodeService {
 
     RestClient restClient;
-    RestTemplate restTemplate;
 
     final ConfigProperties configProperties;
-
-//    public GeoCodeService(RestTemplateBuilder restClient) {
-//        restTemplate = restClient.build();
-//    }
 
     public GeoCodeService(RestClient.Builder restClientBuilder, ConfigProperties configProperties) {
         this.configProperties = configProperties;
@@ -33,15 +28,13 @@ public class GeoCodeService {
             maxAttempts = 3,
             backoff = @Backoff(delay = 1000))
     public String reverseGeoCode(float lat, float lon) {
-//        final String uri = "https://geocode.maps.co/reverse?lat=55.0&lon=16.5";
-//        return restTemplate.getForObject(uri, String.class);
-        return restClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/reverse")
-                        .queryParam("lat", lat)
-                        .queryParam("lon", lon)
-                        .build())
-                .retrieve()
-                .body(String.class);
+                return restClient.get()
+                        .uri(uriBuilder -> uriBuilder.path("/reverse")
+                                .queryParam("lat", lat)
+                                .queryParam("lon", lon)
+                                .build())
+                        .retrieve()
+                        .body(String.class);
     }
 
     @Recover
